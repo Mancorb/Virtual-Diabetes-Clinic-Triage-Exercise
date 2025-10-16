@@ -18,7 +18,7 @@ class LR_class:
         self.y_tst = None # target column for testing data
 
 
-    def predict(self):
+    def predict(self, split=0.3):
         """Run all other methods and return calculated mse
         of Linear Regression model
 
@@ -26,7 +26,7 @@ class LR_class:
             float: Mean Squared Error
         """
         self._load_data()
-        self._train_test_split()
+        self._train_test_split(split)
 
         model = LinearRegression()
 
