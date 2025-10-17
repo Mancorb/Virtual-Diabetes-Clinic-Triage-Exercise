@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          tail -n +3 installed_packages.txt | awk '{print $1"=="$2}' > requirements.txt
+          tail -n +3 requirements.txt | awk '{print $1"=="$2}' > requirements.txt
           pip install --upgrade pip
           pip install -r requirements.txt
 
