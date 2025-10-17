@@ -22,9 +22,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          tail -n +3 requirements.txt | awk '{print $1"=="$2}' > requirements.txt
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run tests with pytest
         run: pytest -v --maxfail=1 --disable-warnings
