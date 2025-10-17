@@ -21,10 +21,10 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_2 }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/linear_regression:latest .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/RandomForestRegressor:latest .
 
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/linear_regression:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/RandomForestRegressor:latest
