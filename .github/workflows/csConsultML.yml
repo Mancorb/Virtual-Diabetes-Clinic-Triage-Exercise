@@ -3,7 +3,7 @@ name: Continuous Deployment - ConsultML
 on:
   push:
     branches:
-      - main
+      - Development
   pull_request:
 
 jobs:
