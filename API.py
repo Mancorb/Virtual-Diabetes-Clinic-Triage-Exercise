@@ -27,7 +27,7 @@ class PatientData(BaseModel):
     s5: float
     s6: float
 
-model = joblib.load("regression_model.joblib")
+model = joblib.load("RFR_regression_model.joblib")
 
 @app.get("/health")
 def read_model_details():

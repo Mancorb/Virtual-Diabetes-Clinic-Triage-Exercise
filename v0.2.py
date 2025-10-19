@@ -13,7 +13,7 @@ import joblib
 
 import sys
 
-class RR_class: 
+class RFR_class: 
 
     def __init__(self, threshold = 150): 
         self.random_state = 42
@@ -39,31 +39,16 @@ class RR_class:
         self._load_data()
         self._train_test_split(split)
         
-        #param_grid = {
-        #    'n_estimators': [200, 500],
-        #    'max_depth': [3, 5, None],
-        #    'min_samples_leaf': [1, 2, 4],
-        #    'max_features': ['sqrt', 'log2', None]
-        #}
-        
+        # Fit model
         model = RandomForestRegressor(max_depth= 5, 
                                       max_features = 'sqrt',
                                       min_samples_leaf = 2, 
                                       n_estimators = 200,
-                                      random_state = self.random_state)
-        
-        #grid = GridSearchCV(
-        #    model,
-        #    param_grid = param_grid,
-        #    scoring = "neg_root_mean_squared_error",
-        #    cv = 5,
-        #    n_jobs=-1)
-        
+                                      random_state = self.random_state)       
         model.fit(self.X_tr, self.y_tr)
-        #best_params = grid.best_params_
-        #print(f"Best parameters: {best_params}")
 
-        #Predict testing data
+
+        # Predict testing data + calculate evaluation scores
         prediction = model.predict(self.X_tst)
         rmse = root_mean_squared_error(self.y_tst, prediction)
         
@@ -73,7 +58,7 @@ class RR_class:
         precision = precision_score(high_risk_flag_true, high_risk_flag_pred)
         recall = recall_score(high_risk_flag_true, high_risk_flag_pred)
 
-        joblib.dump(model, "regression_model.joblib")
+        joblib.dump(model, "RFR_regression_model.joblib")
          
         # Log metrics
         self._log_metrics(rmse, precision, recall)
@@ -103,21 +88,20 @@ class RR_class:
                                                             test_size=test_size,
                                                             random_state=self.random_state)   
     def _log_metrics(self, rmse, precision, recall):
-        """Append metrics to CHANGELOG.md"""
         with open("CHANGELOG.md", "a") as f:
-            f.write("\n### Regression + High-risk Flag\n")
+            f.write("\n### Regression v0.2 + High-risk Flag\n")
             f.write(f"- RMSE: {rmse:.4f}\n")
             f.write(f"- Precision (high-risk): {precision:.4f}\n")
             f.write(f"- Recall (high-risk): {recall:.4f}\n")
             
             
 if __name__ == "__main__":
-    RR = RR_class()
+    RFR = RFR_class()
     
     if len(sys.argv) < 2:
         print("[!] Error no input value provided using default 0.3 split")
-        print(f"[+] RMSE, precision, recall: {RR.predict()}")
+        print(f"[+] RMSE, precision, recall: {RFR.predict()}")
         sys.exit(1)
 
     input_value = float(sys.argv[1])
-    print(f"[+] RMSE, precision, recall: {RR.predict(input_value)}")
+    print(f"[+] RMSE, precision, recall: {RFR.predict(input_value)}")
