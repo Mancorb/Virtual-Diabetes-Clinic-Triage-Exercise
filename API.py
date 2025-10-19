@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Oct 18 17:52:43 2025
-
-@author: julia
-"""
 #%% Imports
 from fastapi import FastAPI
 from pydantic import BaseModel

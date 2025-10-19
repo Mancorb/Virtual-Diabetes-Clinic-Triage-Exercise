@@ -1,20 +1,13 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Oct 18 12:14:30 2025
-
-@author: julia
-"""
-
+#%% Imports
 from sklearn.datasets import load_diabetes
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error, precision_score, recall_score
 import joblib
-
 import sys
 
+#%% RandomForestRegressor class
 class RFR_class: 
-
     def __init__(self, threshold = 150): 
         self.random_state = 42
         self.df = None # dataframe
@@ -31,10 +24,12 @@ class RFR_class:
 
     def predict(self, split=0.3):
         """Run all other methods and return calculated mse
-        of Linear Regression model
+        of Random Forest Regressor model
 
         Returns:
             float: Mean Squared Error
+            float: Precision
+            float: Recall
         """
         self._load_data()
         self._train_test_split(split)
