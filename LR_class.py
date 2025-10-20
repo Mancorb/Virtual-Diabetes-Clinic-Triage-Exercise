@@ -3,8 +3,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import root_mean_squared_error
-import sys
+import numpy as np
+import uvicorn
 
+
+# ----- MODEL CLASS -----
 class LR_class: 
 
     def __init__(self):
@@ -17,27 +20,47 @@ class LR_class:
         self.y_tr = None # target column for training data
         self.X_tst = None # scaled testing data
         self.y_tst = None # target column for testing data
+        self.model = None
+        self.rmse = None
+        self.feature_order = ["age","sex","bmi","bp","s1","s2","s3","s4","s5","s6"]
+   
 
+    def _train_model(self, split=0.3):
+        """Train the Linear Regression model with specified split
 
-    def predict(self, split=0.3):
-        """Run all other methods and return calculated mse
-        of Linear Regression model
-
-        Returns:
-            float: Mean Squared Error
+        Args:
+            split (float, optional): Train test split percentage. Defaults to 0.3.
         """
         self._load_data()
         self._train_test_split(split)
 
-        model = LinearRegression()
+        self.model = LinearRegression()
 
         #(Trining data, training data labels)
-        model.fit(self.X_tr,self.y_tr)
+        self.model.fit(self.X_tr,self.y_tr)
 
+
+    def _calculate_metrics(self):
+        """Calculate RMSE and save in local variable"""
         #Predict testing data
-        prediction = model.predict(self.X_tst)
+        prediction = self.model.predict(self.X_tst)
 
-        return root_mean_squared_error(self.y_tst, prediction)
+        self.rmse = root_mean_squared_error(self.y_tst, prediction)
+
+
+    def _log_metrics(self):
+        """
+        Save information on JSon fileon stats of the model
+
+        Args:
+            rmse (float): rmse of the currently running model
+        """
+        self._calculate_metrics()
+
+        with open("metrics.txt", "w") as f:
+            f.write("\n### Root Mean Squared Metric v0.1\n")
+            f.write(f"- RMSE: {self.rmse:.4f}\n")
+            
 
 
     def _load_data(self):
@@ -64,15 +87,20 @@ class LR_class:
         scaler = StandardScaler()
         self.X_tr = scaler.fit_transform(X_train)
         self.X_tst = scaler.transform(X_test)
-  
 
-if __name__ == "__main__":
-    LR = LR_class()
+
+    def predict(self, data):
+        self._train_model()
+        self._log_metrics
+        X_list = [data[feat] for feat in self.feature_order]
+        X = np.array(X_list).reshape(1, -1)
+
+        return float(self.model.predict(X)[0])
     
-    if len(sys.argv) < 2:
-        print("[!] Error no input value provided using default 0.3 split")
-        print(f"[+] RMSE: {LR.predict()}")
-        sys.exit(1)
-
-    input_value = float(sys.argv[1])
-    print(f"[+] RMSE: {LR.predict(input_value)}")
+if __name__ =="__main__":
+    uvicorn.run(
+        "app:app",  # <file_name>:<fastapi_instance>
+        host="0.0.0.0",
+        port=8000,
+        reload=True
+    )
