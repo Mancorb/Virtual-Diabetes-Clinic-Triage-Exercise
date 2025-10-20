@@ -57,7 +57,7 @@ class LR_class:
         """
         self._calculate_metrics()
 
-        with open("metrics.txt", "w") as f:
+        with open("CHANGELOG.md", "w") as f:
             f.write("\n### Root Mean Squared Metric v0.1\n")
             f.write(f"- RMSE: {self.rmse:.4f}\n")
             
@@ -99,7 +99,7 @@ class LR_class:
     
 if __name__ =="__main__":
     uvicorn.run(
-        "app:app",  # <file_name>:<fastapi_instance>
+        "app:app", 
         host="0.0.0.0",
         port=8000,
         reload=True

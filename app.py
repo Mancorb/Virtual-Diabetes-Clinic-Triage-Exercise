@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from LR_class import LR_class  # import your model class
+from RFR_class import RFR_class  # import your model class
 import json
 
-app = FastAPI(title="Diabetes Predictor", version="0.1")
-MODEL_VERSION = "v0.1"
-model_instance = LR_class()
+app = FastAPI(title="Diabetes Predictor", version="0.2")
+MODEL_VERSION = "v0.2"
+model_instance = RFR_class()
 
 class DiabetesFeatures(BaseModel):
     age: float
