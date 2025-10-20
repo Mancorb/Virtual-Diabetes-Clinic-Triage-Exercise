@@ -8,7 +8,7 @@ import sys
 
 #%% RandomForestRegressor class
 class RFR_class: 
-    def __init__(self, threshold = 150): 
+    def __init__(self, threshold = 170): 
         self.random_state = 42
         self.df = None # dataframe
         self.X = None # Feature columns of original dataset
