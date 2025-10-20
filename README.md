@@ -26,3 +26,4 @@ This repository includes two iterations of model development, a complete API ser
 
 * Provides a Dockerfile to package the entire application into a self-contained, portable Docker image.
 
+Test CI workflow
